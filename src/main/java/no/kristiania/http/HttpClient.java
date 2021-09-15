@@ -18,15 +18,21 @@ public class HttpClient {
                         "\r\n").getBytes()
         );
 
+        String statusLine = readLine(socket);
+
+        this.statusCode = Integer.parseInt(statusLine.split(" ")[1]);
+
+    }
+
+    private String readLine(Socket socket) throws IOException {
         StringBuilder result = new StringBuilder();
         InputStream in = socket.getInputStream();
+
         int c;
-        while ((c = in.read()) != -1) {
+        while ((c = in.read()) != -1 && c != '\r') {
             result.append((char)c);
         }
-        String responseMessage = result.toString();
-        this.statusCode = Integer.parseInt(responseMessage.split(" ")[1]);
-
+        return result.toString();
     }
 
     public int getStatusCode() {
@@ -45,8 +51,8 @@ public class HttpClient {
         );
 
         InputStream in = socket.getInputStream();
-        int c;
 
+        int c;
         while ((c = in.read()) != -1) {
             System.out.print((char)c);
         }
