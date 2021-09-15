@@ -20,13 +20,11 @@ public class HttpClient {
                         "\r\n").getBytes()
         );
 
-        headerFields.put("Content-type", "text/html; charset=utf-8");
-
         String statusLine = readLine(socket);
         this.statusCode = Integer.parseInt(statusLine.split(" ")[1]);
 
         String headerLine;
-        while ((headerLine= readLine(socket)).isBlank()){
+        while (!(headerLine = readLine(socket)).isBlank()){
             int colonPos = headerLine.indexOf(':');
             String key = headerLine.substring(0, colonPos);
             String value = headerLine.substring(colonPos+1).trim();
@@ -43,6 +41,7 @@ public class HttpClient {
         while ((c = in.read()) != -1 && c != '\r') {
             result.append((char)c);
         }
+        in.read();
         return result.toString();
     }
 
@@ -69,7 +68,7 @@ public class HttpClient {
         }
     }
 
-    public String getHeader(String s) {
-        return headerFields.get(s);
+    public String getHeader(String headerName) {
+        return headerFields.get(headerName);
     }
 }
