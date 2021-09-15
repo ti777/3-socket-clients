@@ -17,4 +17,10 @@ class HttpClientTest {
         assertEquals(200, client.getStausCode());
     }
 
+    @Test
+    void shouldReturn404StatusCode() {
+        HttpClient client = new HttpClient("Httpbin.org", 80, "/html");
+        assertEquals(404, client.getStausCode());
+    }
+
 }
