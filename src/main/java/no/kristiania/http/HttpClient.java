@@ -5,9 +5,34 @@ import java.io.InputStream;
 import java.net.Socket;
 
 public class HttpClient {
-    public HttpClient(String host, int port, String requestTarget) {
+
+    private final int statusCode;
+
+    public HttpClient(String host, int port, String requestTarget) throws IOException {
+        Socket socket = new Socket(host, port);
+
+        socket.getOutputStream().write(
+                ("GET " + requestTarget + " HTTP/1.1\r\n" +
+                        "Connection: close\r\n" +
+                        "Host: " + host + "\r\n" +
+                        "\r\n").getBytes()
+        );
+
+        StringBuilder result = new StringBuilder();
+        InputStream in = socket.getInputStream();
+        int c;
+        while ((c = in.read()) != -1) {
+            result.append((char)c);
+        }
+        String responseMessage = result.toString();
+        this.statusCode = Integer.parseInt(responseMessage.split(" ")[1]);
 
     }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
 
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("httpbin.org", 80);
@@ -26,9 +51,5 @@ public class HttpClient {
             System.out.print((char)c);
         }
 
-    }
-
-    public int getStausCode() {
-        return 200;
     }
 }
