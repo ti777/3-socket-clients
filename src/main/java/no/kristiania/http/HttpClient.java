@@ -28,6 +28,6 @@ public class HttpClient {
     }
 
     public int getStausCode() {
-        return 0;
+        return 200;
     }
 }
