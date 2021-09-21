@@ -24,10 +24,10 @@ public class HttpClient {
         this.statusCode = Integer.parseInt(statusLine.split(" ")[1]);
 
         String headerLine;
-        while (!(headerLine = readLine(socket)).isBlank()){
-            int colonPos = headerLine.indexOf(':');
-            String key = headerLine.substring(0, colonPos);
-            String value = headerLine.substring(colonPos+1).trim();
+        while (!(headerLine = readLine(socket)).isBlank()){ // les headlines, inntil du kommer til en blank headerline
+            int colonPos = headerLine.indexOf(':'); //hva er posisjonen til ":"
+            String key = headerLine.substring(0, colonPos); // key er da headerLine, alt som er opptil ":"
+            String value = headerLine.substring(colonPos+1).trim(); //value er alt som starter et hakk etter ":". skal ikke ha med ":". og fjerne (trim) widespace
             headerFields.put(key, value);
         }
 
@@ -41,7 +41,7 @@ public class HttpClient {
         while ((c = in.read()) != -1 && c != '\r') {
             result.append((char)c);
         }
-        in.read();
+        in.read(); //lese og kaste e ny karakter
         return result.toString();
     }
 
@@ -70,5 +70,9 @@ public class HttpClient {
 
     public String getHeader(String headerName) {
         return headerFields.get(headerName);
+    }
+
+    public int getContentLength() {
+        return 0;
     }
 }
