@@ -75,4 +75,8 @@ public class HttpClient {
     public int getContentLength() {
         return Integer.parseInt((getHeader("Content-Length"))); //tolker en tekst som en integer, teksten vi skal tolke er headerfielden
     }
+
+    public String getMessageBody() {
+        return null;
+    }
 }
