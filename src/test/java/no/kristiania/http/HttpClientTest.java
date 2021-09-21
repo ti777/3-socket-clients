@@ -32,7 +32,7 @@ class HttpClientTest {
     }
 
     @Test
-    void shouldReadContentLength() {
+    void shouldReadContentLength() throws IOException {
         HttpClient client = new HttpClient("httpbin.org", 80, "/html");
         assertEquals(3741, client.getContentLength());
     }
